@@ -4,15 +4,27 @@ import Logo from '../images/logo.png';
 import { FaEnvelope } from 'react-icons/fa'; // Import an icon for the message
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollingUp, setScrollingUp] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const navigate = useNavigate();
+
+  // Check login state from localStorage on component mount
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem('isLoggedIn');
+    if (storedLoginState === 'true') {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLoginToggle = () => {
-    setIsLoggedIn(!isLoggedIn);
+    const newLoginState = !isLoggedIn;
+    setIsLoggedIn(newLoginState);
 
-    if (!isLoggedIn) {
+    // Store the login state in localStorage
+    localStorage.setItem('isLoggedIn', newLoginState.toString());
+
+    if (newLoginState) {
       navigate('/');
     }
   };
@@ -40,25 +52,21 @@ const NavBar = () => {
         <li className='text-xl'><Link to="/settings">Settings</Link></li>
       </div>
       <div className='w-80 flex justify-center list-none gap-10 items-center'>
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <>
             <div className='relative'>
               <Link to={'/message'}><FaEnvelope className='text-black text-2xl' /></Link>
             </div>
             <div className='w-1 bg-black h-6'></div>
-          </>
-        )}
-        <div className=''>
-          {!isLoggedIn ? (
-            <li className='text-lg text-white rounded-xl font-medium bg-blue-500 hover:bg-blue-400 px-6 py-1 flex justify-center items-center'>
-              <Link to="/login" onClick={handleLoginToggle}>Login</Link>
-            </li>
-          ) : (
             <li className='text-lg text-white rounded-xl font-medium bg-blue-500 hover:bg-blue-400 px-6 py-1 flex justify-center items-center'>
               <Link to="/login" onClick={handleLoginToggle}>Logout</Link>
             </li>
-          )}
-        </div>
+          </>
+        ) : (
+          <li className='text-lg text-white rounded-xl font-medium bg-blue-500 hover:bg-blue-400 px-6 py-1 flex justify-center items-center'>
+            <Link to="/login" onClick={handleLoginToggle}>Login</Link>
+          </li>
+        )}
       </div>
     </nav>
   );

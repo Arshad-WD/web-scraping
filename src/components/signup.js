@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -6,6 +7,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +35,10 @@ const Signup = () => {
     setPassword('');
     setConfirmPassword('');
   };
+
+  const handleLoginRedirect = ()=>{
+    navigate('/login');
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -78,12 +84,22 @@ const Signup = () => {
             />
           </div>
           
-          <button
+          <Link to={'/login'} ><button
             type="submit"
             className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Sign Up
-          </button>
+          </button></Link>
+          <div className='mt-4 text-center'>
+          <p className="text-gray-700">Already have an account? 
+          <button 
+              onClick={handleLoginRedirect}
+              className="text-blue-500 hover:underline ml-1"
+            >
+              Login 
+            </button>
+            </p>
+            </div>
         </form>
       </div>
     </div>

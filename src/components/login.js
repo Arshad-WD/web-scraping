@@ -24,7 +24,7 @@ const Login = () => {
     console.log('Password:', password);
 
     // Redirect or handle successful login
-    navigate('/dashboard'); // Updated redirection
+    navigate('/'); // Updated redirection
   };
 
   const handleSignupRedirect = () => {
@@ -36,10 +36,8 @@ const Login = () => {
       <div className="p-8 bg-white rounded-lg shadow-lg w-full max-w-md transition-transform transform hover:scale-105">
         <h1 className="text-3xl font-bold mb-6 text-center">Login</h1>
         
-        {/* Error Message */}
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        {/* Login Form */}
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label className="block text-gray-700 mb-2 text-lg" htmlFor="email">Email</label>
